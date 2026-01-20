@@ -1,0 +1,284 @@
+// src/screens/TeamSelectionScreen.js
+// Pantalla de selección de equipos estilo retro arcade.
+// Muestra dos columnas (LOCAL y VISITANTE) y permite ciclar entre equipos.
+
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NBA_TEAMS } from '../data/nbaData';
+
+const TeamSelectionScreen = ({ navigation }) => {
+  // Estado para el índice del equipo local
+  const [homeTeamIndex, setHomeTeamIndex] = useState(0); // Lakers por defecto
+  // Estado para el índice del equipo visitante
+  const [awayTeamIndex, setAwayTeamIndex] = useState(1); // Celtics por defecto
+
+  // Equipo actual basado en el índice
+  const homeTeam = NBA_TEAMS[homeTeamIndex];
+  const awayTeam = NBA_TEAMS[awayTeamIndex];
+
+  // Función para ciclar los equipos hacia el siguiente índice
+  const handleCycleHomeTeam = () => {
+    setHomeTeamIndex((prevIndex) => (prevIndex + 1) % NBA_TEAMS.length);
+  };
+
+  const handleCycleAwayTeam = () => {
+    setAwayTeamIndex((prevIndex) => (prevIndex + 1) % NBA_TEAMS.length);
+  };
+
+  // Renderizado de un jugador para la FlatList
+  const renderPlayer = ({ item }) => (
+    <View style={styles.playerItem}>
+      <Text style={styles.playerNumber}>#{item.number}</Text>
+      <Text style={styles.playerName}>{item.name}</Text>
+      <Text style={styles.playerPosition}>{item.position}</Text>
+    </View>
+  );
+
+  // Manejar la navegación a la pantalla de juego pasando los equipos seleccionados
+  const handleStartGame = () => {
+    navigation.navigate('Game', {
+      homeTeam: homeTeam,
+      awayTeam: awayTeam,
+    });
+  };
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      {/* Contenedor principal con fondo arcade */}
+      <View style={styles.container}>
+        {/* Título principal del juego */}
+        <Text style={styles.title}>NBA RETRO JAM</Text>
+
+        {/* Contenedor de equipos: LOCAL vs VISITANTE */}
+        <View style={styles.teamsContainer}>
+          {/* Sección equipo LOCAL */}
+          <View style={styles.teamColumn}>
+            <Text style={styles.teamLabel}>LOCAL</Text>
+
+            {/* Tarjeta táctil del equipo local */}
+            <TouchableOpacity
+              style={[
+                styles.teamCard,
+                { borderColor: homeTeam.primaryColor },
+              ]}
+              onPress={handleCycleHomeTeam}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.teamLogo}>{homeTeam.logo}</Text>
+              <Text style={styles.teamCity}>{homeTeam.city}</Text>
+              <Text
+                style={[
+                  styles.teamName,
+                  { color: homeTeam.primaryColor },
+                ]}
+              >
+                {homeTeam.name}
+              </Text>
+            </TouchableOpacity>
+
+            {/* Lista de jugadores del equipo local */}
+            <View style={styles.playersContainer}>
+              <Text style={styles.playersTitle}>Jugadores</Text>
+              <FlatList
+                data={homeTeam.players}
+                renderItem={renderPlayer}
+                keyExtractor={(item) => item.id.toString()}
+                scrollEnabled={false}
+              />
+            </View>
+          </View>
+
+          {/* Separador VS */}
+          <View style={styles.vsContainer}>
+            <Text style={styles.vsText}>VS</Text>
+          </View>
+
+          {/* Sección equipo VISITANTE */}
+          <View style={styles.teamColumn}>
+            <Text style={styles.teamLabel}>VISITANTE</Text>
+
+            {/* Tarjeta táctil del equipo visitante */}
+            <TouchableOpacity
+              style={[
+                styles.teamCard,
+                { borderColor: awayTeam.primaryColor },
+              ]}
+              onPress={handleCycleAwayTeam}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.teamLogo}>{awayTeam.logo}</Text>
+              <Text style={styles.teamCity}>{awayTeam.city}</Text>
+              <Text
+                style={[
+                  styles.teamName,
+                  { color: awayTeam.primaryColor },
+                ]}
+              >
+                {awayTeam.name}
+              </Text>
+            </TouchableOpacity>
+
+            {/* Lista de jugadores del equipo visitante */}
+            <View style={styles.playersContainer}>
+              <Text style={styles.playersTitle}>Jugadores</Text>
+              <FlatList
+                data={awayTeam.players}
+                renderItem={renderPlayer}
+                keyExtractor={(item) => item.id.toString()}
+                scrollEnabled={false}
+              />
+            </View>
+          </View>
+        </View>
+
+        {/* Botón para iniciar el juego */}
+        <TouchableOpacity
+          style={styles.startButton}
+          onPress={handleStartGame}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.startButtonText}>START GAME</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#0f3460', // Fondo general respetando áreas seguras
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#1a1a2e',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    justifyContent: 'space-between', // Centrado vertical respetando el botón inferior
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FFD700',
+    letterSpacing: 2,
+    marginBottom: 8,
+  },
+  teamsContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  teamColumn: {
+    flex: 1,
+    backgroundColor: '#16213e',
+    borderRadius: 10,
+    padding: 10,
+    borderWidth: 2,
+    borderColor: '#252a4a',
+  },
+  teamLabel: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FFD700',
+    marginBottom: 6,
+  },
+  teamCard: {
+    backgroundColor: '#0f3460',
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderWidth: 2,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  teamLogo: {
+    fontSize: 32,
+    marginBottom: 4,
+  },
+  teamCity: {
+    fontSize: 14,
+    color: '#e0e0e0',
+  },
+  teamName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 2,
+  },
+  playersContainer: {
+    flex: 1,
+    marginTop: 4,
+  },
+  playersTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FFD700',
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  playerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    backgroundColor: '#0f3460',
+    borderRadius: 6,
+    marginBottom: 4,
+  },
+  playerNumber: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#FFD700',
+    width: 40,
+  },
+  playerName: {
+    flex: 1,
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#ffffff',
+    marginHorizontal: 6,
+  },
+  playerPosition: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#F9A01B',
+    width: 30,
+    textAlign: 'right',
+  },
+  vsContainer: {
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  vsText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFD700',
+  },
+  startButton: {
+    backgroundColor: '#FFD700',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  startButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1a1a2e',
+    letterSpacing: 2,
+  },
+});
+
+export default TeamSelectionScreen;
+
