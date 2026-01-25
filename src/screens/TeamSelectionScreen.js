@@ -1,7 +1,3 @@
-// src/screens/TeamSelectionScreen.js
-// Pantalla de selección de equipos estilo retro arcade.
-// Muestra dos columnas (LOCAL y VISITANTE) y permite ciclar entre equipos.
-
 import React, { useState } from 'react';
 import {
   View,
@@ -16,7 +12,7 @@ import { NBA_TEAMS } from '../data/nbaData';
 
 const TeamSelectionScreen = ({ navigation }) => {
   const [homeTeamIndex, setHomeTeamIndex] = useState(0);
-  const [awayTeamIndex, setAwayTeamIndex] = useState(1); 
+  const [awayTeamIndex, setAwayTeamIndex] = useState(1);
 
   const homeTeam = NBA_TEAMS[homeTeamIndex];
   const awayTeam = NBA_TEAMS[awayTeamIndex];
@@ -29,7 +25,6 @@ const TeamSelectionScreen = ({ navigation }) => {
     setAwayTeamIndex((prevIndex) => (prevIndex + 1) % NBA_TEAMS.length);
   };
 
-  // Renderizado de un jugador para la FlatList
   const renderPlayer = ({ item }) => (
     <View style={styles.playerItem}>
       <Text style={styles.playerNumber}>#{item.number}</Text>
@@ -38,7 +33,6 @@ const TeamSelectionScreen = ({ navigation }) => {
     </View>
   );
 
-  // Manejar la navegación a la pantalla de juego pasando los equipos seleccionados
   const handleStartGame = () => {
     navigation.navigate('Game', {
       homeTeam: homeTeam,
@@ -48,18 +42,11 @@ const TeamSelectionScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Contenedor principal con fondo arcade */}
       <View style={styles.container}>
-        {/* Título principal del juego */}
         <Text style={styles.title}>NBA RETRO JAM</Text>
-
-        {/* Contenedor de equipos: LOCAL vs VISITANTE */}
         <View style={styles.teamsContainer}>
-          {/* Sección equipo LOCAL */}
           <View style={styles.teamColumn}>
             <Text style={styles.teamLabel}>LOCAL</Text>
-
-            {/* Tarjeta táctil del equipo local */}
             <TouchableOpacity
               style={[
                 styles.teamCard,
@@ -83,8 +70,6 @@ const TeamSelectionScreen = ({ navigation }) => {
                 {homeTeam.name}
               </Text>
             </TouchableOpacity>
-
-            {/* Lista de jugadores del equipo local */}
             <View style={styles.playersContainer}>
               <Text style={styles.playersTitle}>Jugadores</Text>
               <FlatList
@@ -95,17 +80,11 @@ const TeamSelectionScreen = ({ navigation }) => {
               />
             </View>
           </View>
-
-          {/* Separador VS */}
           <View style={styles.vsContainer}>
             <Text style={styles.vsText}>VS</Text>
           </View>
-
-          {/* Sección equipo VISITANTE */}
           <View style={styles.teamColumn}>
             <Text style={styles.teamLabel}>VISITANTE</Text>
-
-            {/* Tarjeta táctil del equipo visitante */}
             <TouchableOpacity
               style={[
                 styles.teamCard,
@@ -129,8 +108,6 @@ const TeamSelectionScreen = ({ navigation }) => {
                 {awayTeam.name}
               </Text>
             </TouchableOpacity>
-
-            {/* Lista de jugadores del equipo visitante */}
             <View style={styles.playersContainer}>
               <Text style={styles.playersTitle}>Jugadores</Text>
               <FlatList
@@ -142,8 +119,6 @@ const TeamSelectionScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
-
-        {/* Botón para iniciar el juego */}
         <TouchableOpacity
           style={styles.startButton}
           onPress={handleStartGame}
@@ -287,4 +262,3 @@ const styles = StyleSheet.create({
 });
 
 export default TeamSelectionScreen;
-

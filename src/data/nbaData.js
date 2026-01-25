@@ -1,8 +1,3 @@
-// src/data/nbaData.js
-// Datos de equipos NBA para el juego retro.
-// Se separan en este archivo para no hardcodear datos en las vistas.
-
-// Importar logos locales
 const lakersLogo = require('../../assets/images/logos/lakers.jpg');
 const celticsLogo = require('../../assets/images/logos/celtics.png');
 const bullsLogo = require('../../assets/images/logos/bulls.png');
@@ -18,7 +13,6 @@ export const NBA_TEAMS = [
     abbreviation: 'LAL',
     primaryColor: '#552583',
     secondaryColor: '#FDB927',
-    //logo: '⭐',
     logoImage: lakersLogo,
     players: [
       {
@@ -60,7 +54,6 @@ export const NBA_TEAMS = [
     abbreviation: 'BOS',
     primaryColor: '#007A33',
     secondaryColor: '#BA9653',
-    logo: '☘️',
     logoImage: celticsLogo,
     players: [
       {
@@ -102,7 +95,6 @@ export const NBA_TEAMS = [
     abbreviation: 'CHI',
     primaryColor: '#CE1141',
     secondaryColor: '#000000',
-    logo: '🐂',
     logoImage: bullsLogo,
     players: [
       {
@@ -144,7 +136,6 @@ export const NBA_TEAMS = [
     abbreviation: 'MIA',
     primaryColor: '#98002E',
     secondaryColor: '#F9A01B',
-    //logo: '🔥',
     logoImage: heatLogo,
     players: [
       {
@@ -186,7 +177,6 @@ export const NBA_TEAMS = [
     abbreviation: 'NYK',
     primaryColor: '#006BB6',
     secondaryColor: '#F58426',
-    //logo: '🗽',
     logoImage: knicksLogo,
     players: [
       {
@@ -228,7 +218,6 @@ export const NBA_TEAMS = [
     abbreviation: 'SAS',
     primaryColor: '#000000',
     secondaryColor: '#C4CED4',
-    logo: '🌪️',
     logoImage: spursLogo,
     players: [
       {

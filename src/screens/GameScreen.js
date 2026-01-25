@@ -1,43 +1,26 @@
-// src/screens/GameScreen.js
-// Pantalla de juego que muestra el marcador, equipos seleccionados y controles de puntuación.
-
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const GameScreen = ({ route, navigation }) => {
-  // Recibimos los equipos seleccionados desde route.params
   const { homeTeam, awayTeam } = route.params;
 
-  // Estado para las puntuaciones de cada equipo
-  const [homeScore, setHomeScore] = useState(0);
-  const [awayScore, setAwayScore] = useState(0);
-
-  // Funciones para incrementar la puntuación
-  const addTwoPointsHome = () => {
-    setHomeScore((prev) => prev + 2);
-  };
-
-  const addTwoPointsAway = () => {
-    setAwayScore((prev) => prev + 2);
-  };
+  // Estado para las puntuaciones,pero no lo estoy usando
+  const [homeScore] = useState(0);
+  const [awayScore] = useState(0);
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Fondo principal estilo arcade */}
       <View style={styles.container}>
-        {/* Título de la pantalla de juego */}
         <Text style={styles.title}>RETRO GAME</Text>
 
-        {/* Información del cuarto y tiempo */}
         <View style={styles.timeContainer}>
           <Text style={styles.quarterText}>Q1</Text>
           <Text style={styles.timeText}>12:00</Text>
         </View>
 
-        {/* Marcador principal con colores de cada equipo */}
+        {/* Cada equipo muestra logo, abreviatura y puntuación. Los colores de borde se calculan dinámicamente */}
         <View style={styles.scoreboardContainer}>
-          {/* Equipo Local */}
           <View
             style={[
               styles.teamScoreContainer,
@@ -56,12 +39,10 @@ const GameScreen = ({ route, navigation }) => {
             <Text style={styles.scoreText}>{homeScore}</Text>
           </View>
 
-          {/* Separador */}
           <View style={styles.scoreVsContainer}>
             <Text style={styles.scoreVsText}>-</Text>
           </View>
 
-          {/* Equipo Visitante */}
           <View
             style={[
               styles.teamScoreContainer,
@@ -81,38 +62,15 @@ const GameScreen = ({ route, navigation }) => {
           </View>
         </View>
 
-        {/* Botones de control de puntuación */}
         <View style={styles.controlsContainer}>
           <View style={styles.controlColumn}>
             <Text style={styles.controlLabel}>{homeTeam.name}</Text>
-            <TouchableOpacity
-              style={[
-                styles.scoreButton,
-                { backgroundColor: homeTeam.primaryColor },
-              ]}
-              onPress={addTwoPointsHome}
-              activeOpacity={0.9}
-            >
-              <Text style={styles.scoreButtonText}>+2 PUNTOS</Text>
-            </TouchableOpacity>
           </View>
-
           <View style={styles.controlColumn}>
             <Text style={styles.controlLabel}>{awayTeam.name}</Text>
-            <TouchableOpacity
-              style={[
-                styles.scoreButton,
-                { backgroundColor: awayTeam.primaryColor },
-              ]}
-              onPress={addTwoPointsAway}
-              activeOpacity={0.9}
-            >
-              <Text style={styles.scoreButtonText}>+2 PUNTOS</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
-        {/* Botón para volver a selección si se desea cambiar equipos */}
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
@@ -256,4 +214,3 @@ const styles = StyleSheet.create({
 });
 
 export default GameScreen;
-
