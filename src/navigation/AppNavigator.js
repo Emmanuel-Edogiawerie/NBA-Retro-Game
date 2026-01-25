@@ -15,7 +15,7 @@ const AppNavigator = () => {
     <Stack.Navigator
       initialRouteName="TeamSelection"
       screenOptions={{
-        headerShown: false, // Ocultamos el header para un look más arcade
+        headerShown: false,
       }}
     >
       <Stack.Screen

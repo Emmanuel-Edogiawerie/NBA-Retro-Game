@@ -2,7 +2,7 @@
 // Pantalla de juego que muestra el marcador, equipos seleccionados y controles de puntuación.
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const GameScreen = ({ route, navigation }) => {
@@ -45,7 +45,11 @@ const GameScreen = ({ route, navigation }) => {
             ]}
           >
             <Text style={styles.teamRole}>LOCAL</Text>
-            <Text style={styles.teamLogo}>{homeTeam.logo}</Text>
+            <Image
+              source={homeTeam.logoImage}
+              style={styles.teamLogo}
+              resizeMode="contain"
+            />
             <Text style={[styles.teamAbbr, { color: homeTeam.primaryColor }]}>
               {homeTeam.abbreviation}
             </Text>
@@ -65,7 +69,11 @@ const GameScreen = ({ route, navigation }) => {
             ]}
           >
             <Text style={styles.teamRole}>VISITANTE</Text>
-            <Text style={styles.teamLogo}>{awayTeam.logo}</Text>
+            <Image
+              source={awayTeam.logoImage}
+              style={styles.teamLogo}
+              resizeMode="contain"
+            />
             <Text style={[styles.teamAbbr, { color: awayTeam.primaryColor }]}>
               {awayTeam.abbreviation}
             </Text>
@@ -181,7 +189,8 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   teamLogo: {
-    fontSize: 28,
+    width: 50,
+    height: 50,
     marginBottom: 4,
   },
   teamAbbr: {

@@ -9,21 +9,18 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NBA_TEAMS } from '../data/nbaData';
 
 const TeamSelectionScreen = ({ navigation }) => {
-  // Estado para el índice del equipo local
-  const [homeTeamIndex, setHomeTeamIndex] = useState(0); // Lakers por defecto
-  // Estado para el índice del equipo visitante
-  const [awayTeamIndex, setAwayTeamIndex] = useState(1); // Celtics por defecto
+  const [homeTeamIndex, setHomeTeamIndex] = useState(0);
+  const [awayTeamIndex, setAwayTeamIndex] = useState(1); 
 
-  // Equipo actual basado en el índice
   const homeTeam = NBA_TEAMS[homeTeamIndex];
   const awayTeam = NBA_TEAMS[awayTeamIndex];
 
-  // Función para ciclar los equipos hacia el siguiente índice
   const handleCycleHomeTeam = () => {
     setHomeTeamIndex((prevIndex) => (prevIndex + 1) % NBA_TEAMS.length);
   };
@@ -37,7 +34,7 @@ const TeamSelectionScreen = ({ navigation }) => {
     <View style={styles.playerItem}>
       <Text style={styles.playerNumber}>#{item.number}</Text>
       <Text style={styles.playerName}>{item.name}</Text>
-      <Text style={styles.playerPosition}>{item.position}</Text>
+      {/*<Text style={styles.playerPosition}>{item.position}</Text>*/}
     </View>
   );
 
@@ -71,7 +68,11 @@ const TeamSelectionScreen = ({ navigation }) => {
               onPress={handleCycleHomeTeam}
               activeOpacity={0.8}
             >
-              <Text style={styles.teamLogo}>{homeTeam.logo}</Text>
+              <Image
+                source={homeTeam.logoImage}
+                style={styles.teamLogo}
+                resizeMode="contain"
+              />
               <Text style={styles.teamCity}>{homeTeam.city}</Text>
               <Text
                 style={[
@@ -113,7 +114,11 @@ const TeamSelectionScreen = ({ navigation }) => {
               onPress={handleCycleAwayTeam}
               activeOpacity={0.8}
             >
-              <Text style={styles.teamLogo}>{awayTeam.logo}</Text>
+              <Image
+                source={awayTeam.logoImage}
+                style={styles.teamLogo}
+                resizeMode="contain"
+              />
               <Text style={styles.teamCity}>{awayTeam.city}</Text>
               <Text
                 style={[
@@ -154,14 +159,14 @@ const TeamSelectionScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#0f3460', // Fondo general respetando áreas seguras
+    backgroundColor: '#0f3460',
   },
   container: {
     flex: 1,
     backgroundColor: '#1a1a2e',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    justifyContent: 'space-between', // Centrado vertical respetando el botón inferior
+    justifyContent: 'space-between',
   },
   title: {
     textAlign: 'center',
@@ -202,7 +207,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   teamLogo: {
-    fontSize: 32,
+    width: 60,
+    height: 60,
     marginBottom: 4,
   },
   teamCity: {
